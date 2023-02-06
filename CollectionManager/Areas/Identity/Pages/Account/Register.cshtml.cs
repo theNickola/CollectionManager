@@ -123,6 +123,9 @@ namespace CollectionManager.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    WebApplicationBuilder? builder = WebApplication.CreateBuilder();
+                    await _userManager.AddToRoleAsync(user, 
+                        builder.Configuration.GetSection("RolesApplication")["UserRole"]);
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);

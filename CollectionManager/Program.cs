@@ -44,4 +44,9 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
+using (var scope = app.Services.CreateScope())
+{
+    await RolesInit.SeedRolesAndAdminAsync(scope.ServiceProvider);
+}
+
 app.Run();
