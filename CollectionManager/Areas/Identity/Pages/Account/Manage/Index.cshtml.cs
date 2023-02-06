@@ -59,6 +59,7 @@ namespace CollectionManager.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            public string Name { get; set; }
         }
 
         private async Task LoadAsync(User user)
@@ -70,7 +71,8 @@ namespace CollectionManager.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Name = user.Name
             };
         }
 
@@ -109,6 +111,11 @@ namespace CollectionManager.Areas.Identity.Pages.Account.Manage
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
+            }
+            if (Input.Name != user.Name)
+            {
+                user.Name = Input.Name;
+                await _userManager.UpdateAsync(user);
             }
 
             await _signInManager.RefreshSignInAsync(user);
