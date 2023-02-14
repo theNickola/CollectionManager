@@ -1,8 +1,11 @@
-﻿namespace CollectionManager.Data
+﻿using Microsoft.Build.Framework;
+
+namespace CollectionManager.Data
 {
     public class Collection
     {
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; } = "UserName";
         public string Description { get; set; } = "Some description ...";
         public int TopicId{ get; set; }

@@ -1,8 +1,12 @@
 using CollectionManager.Data;
+using CollectionManager.Repositories.Abstract;
+using CollectionManager.Repositories.Implementation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllersWithViews();
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -16,7 +20,8 @@ builder.Services.AddIdentity<User, IdentityRole>(/*options => options.SignIn.Req
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultUI()
     .AddDefaultTokenProviders();
-builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<ITopicService, TopicService>();
 
 var app = builder.Build();
 
