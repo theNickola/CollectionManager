@@ -29,10 +29,10 @@ namespace CollectionManager.Repositories.Implementation
         {
             try
             {
-                var data = this.FindById(id);
-                if (data == null)
+                var topic = this.FindById(id);
+                if (topic == null)
                     return false;
-                _context.Remove(data);
+                _context.Remove(topic);
                 _context.SaveChanges();
                 return true;
             }
@@ -41,17 +41,14 @@ namespace CollectionManager.Repositories.Implementation
                 return false;
             }
         }
-
         public Topic FindById(int id)
         {
             return _context.Topics.Find(id);
         }
-
         public IEnumerable<Topic> GetAll()
         {
             return _context.Topics.ToList();
         }
-
         public bool Update(Topic model)
         {
             try

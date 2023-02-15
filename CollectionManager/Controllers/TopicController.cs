@@ -14,6 +14,11 @@ namespace CollectionManager.Controllers
         {
             _service = service;
         }
+        public IActionResult Index()
+        {
+            var topics = _service.GetAll();
+            return View(topics);
+        }
         public IActionResult Add()
         {
             return View();
@@ -36,8 +41,8 @@ namespace CollectionManager.Controllers
         }
         public IActionResult Update(int id)
         {
-            var record = _service.FindById(id);
-            return View(record);
+            var topic = _service.FindById(id);
+            return View(topic);
         }
         [HttpPost]
         public IActionResult Update(Topic model)
@@ -58,11 +63,6 @@ namespace CollectionManager.Controllers
         {
             var result = _service.Delete(id);
             return RedirectToAction("Index");
-        }
-        public IActionResult Index()
-        {
-            var data = _service.GetAll();
-            return View(data);
         }
     }
 }
