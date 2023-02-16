@@ -10,7 +10,6 @@ namespace CollectionManager.Repositories.Implementation
         {
             _context = context;
         }
-
         public bool Add(Topic model)
         {
             try
@@ -24,7 +23,6 @@ namespace CollectionManager.Repositories.Implementation
                 return false;
             }
         }
-
         public bool Delete(int id)
         {
             try
@@ -41,7 +39,7 @@ namespace CollectionManager.Repositories.Implementation
                 return false;
             }
         }
-        public Topic FindById(int id)
+        public Topic? FindById(int id)
         {
             return _context.Topics.Find(id);
         }

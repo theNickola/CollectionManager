@@ -12,10 +12,12 @@ namespace CollectionManager.Repositories.Implementation
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
-        public AdminService(ApplicationDbContext context, UserManager<User> userManager)
+        private readonly SignInManager<User> _signInManager;
+        public AdminService(ApplicationDbContext context, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public bool AddAdminRole(string id)
@@ -93,12 +95,6 @@ namespace CollectionManager.Repositories.Implementation
         {
             return _context.Users.Find(id);
         }
-        public async Task<string> GetUserRoles(string id)
-        {
-            User? user = FindById(id);
-            IList<string> rolesName = await _userManager.GetRolesAsync(user);
-            return string.Join(", ", rolesName.ToArray());
-        }
         public IEnumerable<UserInfo> GetAll()
         {
             List<UserInfo> userList = new();
@@ -106,6 +102,12 @@ namespace CollectionManager.Repositories.Implementation
             foreach (var user in users)
                 userList.Add(new UserInfo(user) { Roles = GetUserRoles(user.Id).Result.ToString() });
             return userList;
+        }
+        public async Task<string> GetUserRoles(string id)
+        {
+            User? user = FindById(id);
+            IList<string> rolesName = await _userManager.GetRolesAsync(user);
+            return string.Join(", ", rolesName.ToArray());
         }
         private void AddAdminRoleToUser(string id)
         {

@@ -6,7 +6,7 @@ using System.Data;
 
 namespace CollectionManager.Controllers
 {
-    [Authorize(Roles = "admin,user")]
+    [Authorize(Roles = "admin")]
     public class TopicController : Controller
     {
         private readonly ITopicService _service;

@@ -5,17 +5,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CollectionManager.Controllers
 {
-    [Authorize(Roles ="admin")]
+    [Authorize(Roles ="admin,user")]
     public class AdminController : Controller
     {
         private readonly IAdminService _service;
-        public AdminController(IAdminService service)
+        private readonly IAccessService _accessService;
+        public AdminController(IAdminService service, IAccessService accessService)
         {
             _service = service;
+            _accessService = accessService;
         }
 
         public IActionResult Index()
         {
+            try
+            {
+                if (!_accessService.IsUserRule(User.Identity.Name).Result)
+                    return Redirect("/Identity/Account/AccessDenied");
+            }
+            catch 
+            { 
+                return Redirect("/Identity/Account/AccessDenied"); 
+            }
             var users = _service.GetAll();
             ViewData["NameAdminRole"] = RolesInit.GetNameAdminRole();
             return View(users);

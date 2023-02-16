@@ -22,6 +22,7 @@ builder.Services.AddIdentity<User, IdentityRole>(/*options => options.SignIn.Req
 
 builder.Services.AddScoped<ITopicService, TopicService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IAccessService, AccessService>();
 
 var app = builder.Build();
 
@@ -43,6 +44,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+//app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",
