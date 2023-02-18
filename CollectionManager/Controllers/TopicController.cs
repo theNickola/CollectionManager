@@ -10,12 +10,16 @@ namespace CollectionManager.Controllers
     public class TopicController : Controller
     {
         private readonly ITopicService _service;
-        public TopicController(ITopicService service)
+        private readonly IAccessService _accessService;
+        public TopicController(ITopicService service, IAccessService accessService)
         {
             _service = service;
+            _accessService = accessService;
         }
         public IActionResult Index()
         {
+            if (!IsUserAcess())
+                return Redirect("/Identity/Account/AccessDenied");
             var topics = _service.GetAll();
             return View(topics);
         }
@@ -26,6 +30,8 @@ namespace CollectionManager.Controllers
         [HttpPost]
         public IActionResult Add(Topic model)
         {
+            if (!IsUserAcess())
+                return Redirect("/Identity/Account/AccessDenied");
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -41,12 +47,16 @@ namespace CollectionManager.Controllers
         }
         public IActionResult Update(int id)
         {
+            if (!IsUserAcess())
+                return Redirect("/Identity/Account/AccessDenied");
             var topic = _service.FindById(id);
             return View(topic);
         }
         [HttpPost]
         public IActionResult Update(Topic model)
         {
+            if (!IsUserAcess())
+                return Redirect("/Identity/Account/AccessDenied");
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -61,8 +71,26 @@ namespace CollectionManager.Controllers
         }
         public IActionResult Delete(int id)
         {
+            if (!IsUserAcess())
+                return Redirect("/Identity/Account/AccessDenied");
             var result = _service.Delete(id);
+            if (!result) TempData["msg"] = "Operation error";
             return RedirectToAction("Index");
+        }
+        private bool IsUserAcess()
+        {
+            try
+            {
+                if (!_accessService.IsUserRule(User.Identity.Name).Result)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

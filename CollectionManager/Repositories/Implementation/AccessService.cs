@@ -46,7 +46,7 @@ namespace CollectionManager.Repositories.Implementation
         public async Task<bool> IsUserRule(string userLogin)
         {
             if (IsExistUser(userLogin).Result)
-                if (IsInAdminRole(userLogin).Result & IsActiveUser(userLogin).Result)
+                if (IsInAdminRole(userLogin).Result && IsActiveUser(userLogin).Result)
                     return true;
             return false;
         }

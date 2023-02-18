@@ -18,49 +18,63 @@ namespace CollectionManager.Controllers
 
         public IActionResult Index()
         {
-            try
-            {
-                if (!_accessService.IsUserRule(User.Identity.Name).Result)
-                    return Redirect("/Identity/Account/AccessDenied");
-            }
-            catch 
-            { 
-                return Redirect("/Identity/Account/AccessDenied"); 
-            }
+            if (!IsUserAcess())
+                return Redirect("/Identity/Account/AccessDenied");
             var users = _service.GetAll();
             ViewData["NameAdminRole"] = RolesInit.GetNameAdminRole();
             return View(users);
         }
         public IActionResult Block(string id)
         {
-            var result = _service.Block(id);
-            if (!result) TempData["msg"] = "Operation error";
+            if (!IsUserAcess())
+                return Redirect("/Identity/Account/AccessDenied");
+            IsUserAcess();
+            _service.Block(id);
             return RedirectToAction("Index");
 
         }
         public IActionResult Unblock(string id)
         {
-            var result = _service.Unblock(id);
-            if (!result) TempData["msg"] = "Operation error";
+            if (!IsUserAcess())
+                return Redirect("/Identity/Account/AccessDenied");
+            _service.Unblock(id);
             return RedirectToAction("Index");
         }
         public IActionResult AddAdminRole(string id)
         {
-            var result = _service.AddAdminRole(id);
-            if (!result) TempData["msg"] = "Operation error";
+            if (!IsUserAcess())
+                return Redirect("/Identity/Account/AccessDenied");
+            _service.AddAdminRole(id);
             return RedirectToAction("Index");
         }        
         public IActionResult RemoveAdminRole(string id)
         {
-            var result = _service.RemoveAdminRole(id);
-            if (!result) TempData["msg"] = "Operation error";
+            if (!IsUserAcess())
+                return Redirect("/Identity/Account/AccessDenied");
+            _service.RemoveAdminRole(id);
             return RedirectToAction("Index");
         }
         public IActionResult Delete(string id)
         {
-            var result = _service.Delete(id);
-            if (!result) TempData["msg"] = "Operation error";
+            if (!IsUserAcess())
+                return Redirect("/Identity/Account/AccessDenied");
+            _service.Delete(id);
             return RedirectToAction("Index");
+        }
+        private bool IsUserAcess()
+        {
+            try
+            {
+                if (!_accessService.IsUserRule(User.Identity.Name).Result)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
