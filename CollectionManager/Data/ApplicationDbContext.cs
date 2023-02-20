@@ -1,5 +1,4 @@
 ﻿using CollectionManager.Models.Domain;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,5 +18,10 @@ namespace CollectionManager.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Like> Likes { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Like>().HasKey(l => new { l.IthemId, l.UserId });
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
