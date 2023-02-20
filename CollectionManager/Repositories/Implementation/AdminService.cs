@@ -100,7 +100,7 @@ namespace CollectionManager.Repositories.Implementation
             List<UserInfo> userList = new();
             var users = _context.Users.ToList();
             foreach (var user in users)
-                userList.Add(new UserInfo(user) { Roles = GetUserRoles(user.Id).Result.ToString() });
+                userList.Add(new UserInfo(user) { Roles = GetUserRoles(user.Id.ToString()).Result.ToString() });
             return userList;
         }
         public async Task<string> GetUserRoles(string id)

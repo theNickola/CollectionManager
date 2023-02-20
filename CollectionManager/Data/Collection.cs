@@ -1,16 +1,15 @@
 ﻿using Microsoft.Build.Framework;
+using Microsoft.AspNetCore.Identity;
 
 namespace CollectionManager.Data
 {
     public class Collection
     {
-        public int Id { get; set; }
-        [Required]
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; } = "UserName";
         public string Description { get; set; } = "Some description ...";
-        public int TopicId{ get; set; }
         public string? ImagePath { get; set; }
-        public int UserId { get; set; }
+        public DateTime DateCreation { get; } = DateTime.Now;
         public string? NameDigitField1 { get; set; }
         public string? NameDigitField2 { get; set; }
         public string? NameDigitField3 { get; set; }
@@ -26,5 +25,10 @@ namespace CollectionManager.Data
         public string? NameBoolField1 { get; set; }
         public string? NameBoolField2 { get; set; }
         public string? NameBoolField3 { get; set; }
+        public string TopicId { get; set; }
+        public Topic Topic { get; set; }
+        public string UserId { get; set; }
+        public User User { get; set; }
+        public List<Ithem> Ithems { get; set; } = new();
     }
 }

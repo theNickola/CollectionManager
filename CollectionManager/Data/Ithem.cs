@@ -2,9 +2,9 @@
 {
     public class Ithem
     {
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; }
-        public int CollectionId { get; set; }
+        public DateTime DateCreation { get; } = DateTime.Now;
         public string? DigitField1 { get; set; }
         public string? DigitField2 { get; set; }
         public string? DigitField3 { get; set; }
@@ -20,5 +20,10 @@
         public string? BoolField1 { get; set; }
         public string? BoolField2 { get; set; }
         public string? BoolField3 { get; set; }
+        public List<Comment> Comments { get; set; }
+        public List<Tag> Tags { get; set; } = new();
+        public List<Like> Likes { get; set; } = new();
+        public string CollectionId { get; set; }
+        public Collection Collection { get; set; }
     }
 }
