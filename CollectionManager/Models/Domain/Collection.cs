@@ -1,7 +1,7 @@
 ﻿using Microsoft.Build.Framework;
 using Microsoft.AspNetCore.Identity;
 
-namespace CollectionManager.Data
+namespace CollectionManager.Models.Domain
 {
     public class Collection
     {

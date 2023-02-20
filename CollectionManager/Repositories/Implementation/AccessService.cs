@@ -1,4 +1,5 @@
 ﻿using CollectionManager.Data;
+using CollectionManager.Models.Domain;
 using CollectionManager.Repositories.Abstract;
 using Microsoft.AspNetCore.Identity;
 

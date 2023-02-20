@@ -1,5 +1,5 @@
-﻿using CollectionManager.Data;
-using CollectionManager.Models.Admin;
+﻿using CollectionManager.Models.Admin;
+using CollectionManager.Models.Domain;
 
 namespace CollectionManager.Repositories.Abstract
 {

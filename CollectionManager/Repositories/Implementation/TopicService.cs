@@ -1,4 +1,5 @@
 ﻿using CollectionManager.Data;
+using CollectionManager.Models.Domain;
 using CollectionManager.Repositories.Abstract;
 
 namespace CollectionManager.Repositories.Implementation
@@ -23,7 +24,7 @@ namespace CollectionManager.Repositories.Implementation
                 return false;
             }
         }
-        public bool Delete(int id)
+        public bool Delete(string id)
         {
             try
             {
@@ -39,7 +40,7 @@ namespace CollectionManager.Repositories.Implementation
                 return false;
             }
         }
-        public Topic? FindById(int id)
+        public Topic? FindById(string id)
         {
             return _context.Topics.Find(id);
         }

@@ -1,4 +1,4 @@
-﻿using CollectionManager.Data;
+﻿using CollectionManager.Models.Domain;
 using CollectionManager.Repositories.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -45,7 +45,7 @@ namespace CollectionManager.Controllers
             TempData["msg"] = "Error has occured on server side";
             return View(model);
         }
-        public IActionResult Update(int id)
+        public IActionResult Update(string id)
         {
             if (!IsUserAcess())
                 return Redirect("/Identity/Account/AccessDenied");
@@ -69,7 +69,7 @@ namespace CollectionManager.Controllers
             TempData["msg"] = "Error has occured on server side";
             return View(model);
         }
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
             if (!IsUserAcess())
                 return Redirect("/Identity/Account/AccessDenied");

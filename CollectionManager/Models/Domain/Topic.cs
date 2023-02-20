@@ -1,6 +1,6 @@
 ﻿using System.Security;
 
-namespace CollectionManager.Data
+namespace CollectionManager.Models.Domain
 {
     public class Topic
     {

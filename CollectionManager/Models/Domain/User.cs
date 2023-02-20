@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CollectionManager.Data
+namespace CollectionManager.Models.Domain
 {
     public class User : IdentityUser
     {

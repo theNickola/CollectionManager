@@ -1,4 +1,4 @@
-﻿using CollectionManager.Data;
+﻿using CollectionManager.Models.Domain;
 using Microsoft.AspNetCore.Identity;
 
 namespace CollectionManager.Models.Admin

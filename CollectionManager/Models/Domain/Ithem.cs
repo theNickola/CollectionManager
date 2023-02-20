@@ -1,4 +1,4 @@
-﻿namespace CollectionManager.Data
+﻿namespace CollectionManager.Models.Domain
 {
     public class Ithem
     {

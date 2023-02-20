@@ -1,5 +1,6 @@
 ﻿using CollectionManager.Data;
 using CollectionManager.Models.Admin;
+using CollectionManager.Models.Domain;
 using CollectionManager.Repositories.Abstract;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

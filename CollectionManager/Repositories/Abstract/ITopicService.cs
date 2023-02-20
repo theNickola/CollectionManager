@@ -1,4 +1,4 @@
-﻿using CollectionManager.Data;
+﻿using CollectionManager.Models.Domain;
 
 namespace CollectionManager.Repositories.Abstract
 {
@@ -6,8 +6,8 @@ namespace CollectionManager.Repositories.Abstract
     {
         bool Add(Topic model);
         bool Update(Topic model);
-        bool Delete(int id);
-        Topic FindById(int id);
+        bool Delete(string id);
+        Topic FindById(string id);
         IEnumerable<Topic> GetAll();
     }
 }

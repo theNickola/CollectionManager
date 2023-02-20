@@ -1,4 +1,4 @@
-﻿using CollectionManager.Data;
+﻿using CollectionManager.Models.Domain;
 
 namespace CollectionManager.Repositories.Abstract
 {
