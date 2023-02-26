@@ -1,6 +1,5 @@
 ﻿using CollectionManager.Models.Domain;
 using Microsoft.AspNetCore.Identity;
-using System.Data;
 
 namespace CollectionManager.Data
 {

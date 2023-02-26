@@ -24,6 +24,7 @@ builder.Services.AddIdentity<User, IdentityRole>(/*options => options.SignIn.Req
 builder.Services.AddScoped<ITopicService, TopicService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAccessService, AccessService>();
+builder.Services.AddScoped<ICollectionService, CollectionService>();
 
 var app = builder.Build();
 

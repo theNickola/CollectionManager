@@ -1,4 +1,5 @@
 ﻿using CollectionManager.Models.Domain;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CollectionManager.Repositories.Abstract
 {
@@ -9,5 +10,6 @@ namespace CollectionManager.Repositories.Abstract
         bool Delete(string id);
         Topic FindById(string id);
         IEnumerable<Topic> GetAll();
+        SelectList GetSelectList();
     }
 }

@@ -2,25 +2,24 @@
 using CollectionManager.Repositories.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 namespace CollectionManager.Controllers
 {
     [Authorize(Roles = "admin")]
     public class TopicController : Controller
     {
-        private readonly ITopicService _service;
+        private readonly ITopicService _topicService;
         private readonly IAccessService _accessService;
-        public TopicController(ITopicService service, IAccessService accessService)
+        public TopicController(ITopicService topicService, IAccessService accessService)
         {
-            _service = service;
+            _topicService = topicService;
             _accessService = accessService;
         }
         public IActionResult Index()
         {
-            if (!IsUserAcess())
+            if (!IsAdminAcess())
                 return Redirect("/Identity/Account/AccessDenied");
-            var topics = _service.GetAll();
+            var topics = _topicService.GetAll();
             return View(topics);
         }
         public IActionResult Add()
@@ -30,13 +29,13 @@ namespace CollectionManager.Controllers
         [HttpPost]
         public IActionResult Add(Topic model)
         {
-            if (!IsUserAcess())
+            if (!IsAdminAcess())
                 return Redirect("/Identity/Account/AccessDenied");
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            var result = _service.Add(model);
+            var result = _topicService.Add(model);
             if(result)
             {
                 TempData["msg"] = "Added Successfully";
@@ -47,21 +46,21 @@ namespace CollectionManager.Controllers
         }
         public IActionResult Update(string id)
         {
-            if (!IsUserAcess())
+            if (!IsAdminAcess())
                 return Redirect("/Identity/Account/AccessDenied");
-            var topic = _service.FindById(id);
+            var topic = _topicService.FindById(id);
             return View(topic);
         }
         [HttpPost]
         public IActionResult Update(Topic model)
         {
-            if (!IsUserAcess())
+            if (!IsAdminAcess())
                 return Redirect("/Identity/Account/AccessDenied");
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            var result = _service.Update(model);
+            var result = _topicService.Update(model);
             if (result)
             {
                 return RedirectToAction("Index");
@@ -71,17 +70,18 @@ namespace CollectionManager.Controllers
         }
         public IActionResult Delete(string id)
         {
-            if (!IsUserAcess())
+            if (!IsAdminAcess())
                 return Redirect("/Identity/Account/AccessDenied");
-            var result = _service.Delete(id);
-            if (!result) TempData["msg"] = "Operation error";
+            var result = _topicService.Delete(id);
+            if (!result) 
+                TempData["msg"] = "Deletion error";
             return RedirectToAction("Index");
         }
-        private bool IsUserAcess()
+        private bool IsAdminAcess()
         {
             try
             {
-                if (!_accessService.IsUserRule(User.Identity.Name).Result)
+                if (!_accessService.IsAdminRule(User.Identity.Name).Result)
                 {
                     return false;
                 }

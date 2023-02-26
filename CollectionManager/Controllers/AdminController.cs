@@ -8,64 +8,63 @@ namespace CollectionManager.Controllers
     [Authorize(Roles ="admin,user")]
     public class AdminController : Controller
     {
-        private readonly IAdminService _service;
+        private readonly IAdminService _adminService;
         private readonly IAccessService _accessService;
-        public AdminController(IAdminService service, IAccessService accessService)
+        public AdminController(IAdminService adminService, IAccessService accessService)
         {
-            _service = service;
+            _adminService = adminService;
             _accessService = accessService;
         }
 
         public IActionResult Index()
         {
-            if (!IsUserAcess())
+            if (!IsAdminAcess())
                 return Redirect("/Identity/Account/AccessDenied");
-            var users = _service.GetAll();
+            var users = _adminService.GetAll();
             ViewData["NameAdminRole"] = RolesInit.GetNameAdminRole();
             return View(users);
         }
         public IActionResult Block(string id)
         {
-            if (!IsUserAcess())
+            if (!IsAdminAcess())
                 return Redirect("/Identity/Account/AccessDenied");
-            IsUserAcess();
-            _service.Block(id);
+            _adminService.Block(id);
             return RedirectToAction("Index");
 
         }
         public IActionResult Unblock(string id)
         {
-            if (!IsUserAcess())
+            if (!IsAdminAcess())
                 return Redirect("/Identity/Account/AccessDenied");
-            _service.Unblock(id);
+            _adminService.Unblock(id);
             return RedirectToAction("Index");
         }
         public IActionResult AddAdminRole(string id)
         {
-            if (!IsUserAcess())
+            if (!IsAdminAcess())
                 return Redirect("/Identity/Account/AccessDenied");
-            _service.AddAdminRole(id);
+            _adminService.AddAdminRole(id);
             return RedirectToAction("Index");
         }        
         public IActionResult RemoveAdminRole(string id)
         {
-            if (!IsUserAcess())
+            if (!IsAdminAcess())
                 return Redirect("/Identity/Account/AccessDenied");
-            _service.RemoveAdminRole(id);
+            _adminService.RemoveAdminRole(id);
             return RedirectToAction("Index");
         }
         public IActionResult Delete(string id)
         {
-            if (!IsUserAcess())
+            if (!IsAdminAcess())
                 return Redirect("/Identity/Account/AccessDenied");
-            _service.Delete(id);
+            _adminService.Delete(id);
             return RedirectToAction("Index");
         }
-        private bool IsUserAcess()
+        private bool IsAdminAcess()
         {
             try
             {
-                if (!_accessService.IsUserRule(User.Identity.Name).Result)
+                if (!_accessService.IsAdminRule(User.Identity.Name).Result)
                 {
                     return false;
                 }

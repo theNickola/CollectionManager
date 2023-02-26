@@ -1,0 +1,110 @@
+﻿@using CollectionManager.Models.Domain;
+@model Collection
+@{
+    ViewData["Title"] = "Add collections";
+}
+
+<div class="container pt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>@ViewData["Title"]</h3>
+            <form asp-controller="UserCollections" asp-action="Add" method="post">
+                <div class="form-group">
+                    <label asp-for="Name">Name *</label>
+                    <input type="text" class="form-control" asp-for="Name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <label asp-for="Description">Description *</label>
+                    <input type="text" class="form-control" asp-for="Description" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                    <label asp-for="TopicId">Topic *</label>
+                    <select asp-for="TopicId" class="form-select">
+                        @foreach(var item in ViewBag.Topics)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                    <label>Optional fields</label>
+                    @{
+                        string[] names = ViewBag.NamesGroupOptionalFields.ToArray();
+                    }
+                    @foreach (var item in names)
+                    {
+                        <div>
+                            @{
+                                string itemField = string.Format(item + "Field");
+                                string itemFields = string.Format(item + "Fields");
+                                string addItemField = string.Format("Add" + item + "Field");
+                                string countVisibleItemField = string.Format("countVisible" + item + "Field");
+                            }
+                            <div class="form-control" id=@itemFields>
+
+                                <div class="m-1">
+                                    <input id=@addItemField class="btn btn-success" style="width:210px" type="button" value="Add field for @item.ToString().ToLower()" />
+                                </div>
+
+                                <script>
+                                    let @countVisibleItemField = 0;
+                                    document.getElementById('@addItemField').onclick = function () 
+                                    {
+                                        for (let element of document.getElementsByName('@itemField'))
+                                        {
+                                            if (element.getAttribute("style") === "display:none") 
+                                            {
+                                                element.setAttribute("style", "display:initial");
+                                                @countVisibleItemField++;
+                                                break;
+                                            }
+                                        }
+                                        if (@countVisibleItemField === 3)
+                                            document.getElementById('@addItemField').disabled = true;
+                                    }
+                                </script>
+
+
+                                @for (int i = 1; i <= ViewBag.GetCountOptionalFieldsInGroup; i++)
+                                {
+                                    <div>
+                                        @{
+                                            string itemFieldN = string.Format(item + "Field" + i);
+                                            string nameItemFieldN = string.Format("Name" + item + "Field" + i);
+                                            string nameItemFieldDelN = string.Format("Name" + item + "FieldDel" + i);
+                                        }
+                                        <div id=@itemFieldN name=@itemField class="m-1" style="display:none">
+                                            <input type="text" class="col-11" data-val="true" data-val-required="This field is required." id=@nameItemFieldN name=@nameItemFieldN placeholder="Enter name of field number @i" />
+                                            <input id=@nameItemFieldDelN type="button" value="X" class="btn-sm btn-danger" />
+                                            <span class="text-danger field-validation-valid" data-valmsg-for=@nameItemFieldN data-valmsg-replace="true"></span>
+                                        </div>
+                                        <script>
+                                                document.getElementById('@nameItemFieldDelN').onclick = function () {
+                                                    document.getElementById('@nameItemFieldN').value = '';
+                                                    document.getElementById('@itemFieldN').setAttribute("style", "display:none");
+                                                    @countVisibleItemField--;
+                                                    if (@countVisibleItemField === 2)
+                                                        document.getElementById('@addItemField').disabled = false;
+                                            }
+                                        </script>
+                                    </div>
+                                }
+                                <script>
+
+                                </script>
+                            </div>
+                        </div>
+                    }
+                    <input type="hidden" class="form-control" asp-for="UserId" value="@ViewBag.AuthorID"/>
+                </div>
+
+                @if (TempData["msg"] != null)
+                {
+                    <div class="form-group">
+                        @TempData["msg"]
+                    </div>
+                }
+                <div class="form-group pt-3">
+                    <button type="submit" class="btn btn-dark">Add</button>
+                    <a href="/UserCollections/Index" class="btn btn-primary">List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

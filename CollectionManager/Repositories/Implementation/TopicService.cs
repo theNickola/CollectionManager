@@ -1,6 +1,7 @@
 ﻿using CollectionManager.Data;
 using CollectionManager.Models.Domain;
 using CollectionManager.Repositories.Abstract;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CollectionManager.Repositories.Implementation
 {
@@ -16,6 +17,19 @@ namespace CollectionManager.Repositories.Implementation
             try
             {
                 _context.Topics.Add(model);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public bool Update(Topic model)
+        {
+            try
+            {
+                _context.Topics.Update(model);
                 _context.SaveChanges();
                 return true;
             }
@@ -48,18 +62,9 @@ namespace CollectionManager.Repositories.Implementation
         {
             return _context.Topics.ToList();
         }
-        public bool Update(Topic model)
+        public SelectList GetSelectList()
         {
-            try
-            {
-                _context.Topics.Update(model);
-                _context.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            return new SelectList(_context.Topics, "Id", "Name");
         }
     }
 }

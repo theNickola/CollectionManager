@@ -15,40 +15,48 @@ namespace CollectionManager.Repositories.Implementation
             _signInManager = signInManager;
         }
 
-        public async Task<bool> hasAdminRole(User user)
+        private async Task<bool> hasAdminRole(User user)
         {
             IList<string> userRoles = await _userManager.GetRolesAsync(user);
             return userRoles.ToList().Any(role => role == RolesInit.GetNameAdminRole());
         }
-        public async Task<bool> IsExistUser(string userLogin)
+        private async Task<bool> IsExistUser(string identityName)
         {
-            User user = await _userManager.FindByEmailAsync(userLogin);
+            User user = await _userManager.FindByEmailAsync(identityName);
             if (user != null)
                 return true;
             await _signInManager.SignOutAsync();
             return false;
         }
-        public async Task<bool> IsActiveUser(string userLogin)
+        private async Task<bool> IsActiveUser(string identityName)
         {
-            User user = await _userManager.FindByEmailAsync(userLogin);
+            User user = await _userManager.FindByEmailAsync(identityName);
             if (user.Active)
                 return true;
             await _signInManager.SignOutAsync();
             return false;
         }
-        public async Task<bool> IsInAdminRole(string userLogin)
+        private async Task<bool> IsInAdminRole(string identityName)
         {
-            User user = await _userManager.FindByEmailAsync(userLogin);
+            User user = await _userManager.FindByEmailAsync(identityName);
             if (hasAdminRole(user).Result)
                 return true;
             await _signInManager.RefreshSignInAsync(user);
             return false;
         }
-        public async Task<bool> IsUserRule(string userLogin)
+        public async Task<bool> IsUserRule(string identityName)
         {
-            if (IsExistUser(userLogin).Result)
-                if (IsInAdminRole(userLogin).Result && IsActiveUser(userLogin).Result)
+            if (IsExistUser(identityName).Result)
+                if (IsActiveUser(identityName).Result)
                     return true;
+            return false;
+        }
+        public async Task<bool> IsAdminRule(string identityName)
+        {
+            if (IsExistUser(identityName).Result)
+                if (IsActiveUser(identityName).Result)
+                    if (IsInAdminRole(identityName).Result)
+                        return true;
             return false;
         }
     }
