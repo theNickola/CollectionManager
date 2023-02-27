@@ -26,13 +26,14 @@ namespace CollectionManager.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string userName)
         {
-            return View(_collectionService.GetUserCollections(User.Identity.Name));
+            ViewBag.UserName = userName;
+            return View(_collectionService.GetUserCollections(userName));
         }
-        public IActionResult Add()
+        public IActionResult Add(string userName)
         {
-            SetDataForAddCollection();
+            SetDataForAddCollection(userName);
             return View();
         }
         [HttpPost]
@@ -41,27 +42,29 @@ namespace CollectionManager.Controllers
             //if (!IsUserAcess())
             //    return Redirect("/Identity/Account/AccessDenied");
             var result = _collectionService.Add(model);
-            SetDataForAddCollection();
+            string userName = _userManager.FindByIdAsync(model.UserId).Result.UserName;
+            SetDataForAddCollection(userName);
             if (result)
             {
                 TempData["msg"] = "Added Successfully";
-                return RedirectToAction(nameof(Add));
+                return Redirect("/UserCollections/Add?userName="+userName);
             }
             TempData["msg"] = "Error has occured on server side";
-            return View(model);
+            return Redirect("/UserCollections/Add?userName=" + userName);
         }
-        public IActionResult Delete(string id)
+        public IActionResult Delete(string id, string userName)
         {
             //if (!IsAdminAcess())
             //    return Redirect("/Identity/Account/AccessDenied");
             var result = _collectionService.Delete(id);
             if (!result) 
                 TempData["msg"] = "Deletion error";
-            return RedirectToAction("Index");
+            return Redirect($"/UserCollections/Index?userName={userName}");
         }
-        private void SetDataForAddCollection()
+        private void SetDataForAddCollection(string userName)
         {
-            ViewBag.AuthorID = _userManager.FindByEmailAsync(User.Identity.Name).Result.Id;
+            ViewBag.UserId = _userManager.FindByEmailAsync(userName).Result.Id;
+            ViewBag.UserName = userName;
             SelectList topicSeectList = _topicService.GetSelectList();
             ViewBag.Topics = topicSeectList;
             ViewBag.NamesGroupOptionalFields = _collectionService.GetNamesGroupOptionalFields();

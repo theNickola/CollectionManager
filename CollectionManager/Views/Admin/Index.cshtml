@@ -22,8 +22,7 @@
                         <th>Name</th>
                         <th>Roles</th>
                         <th>Status Activity</th>
-                        <th>Action</th>
-                        <th></th>
+                        <th class="text-center" colspan="4">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,6 +41,16 @@
                                 <td><span class="text-danger fw-bold">Blocked</span></td>
                             }
                             <td>
+                                @if (ithem.Active)
+                                {
+                                    <a class="btn btn-danger" href="/Admin/Block?id=@ithem.Id">Block</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-success" href="/Admin/Unblock?id=@ithem.Id">Unblock</a>
+                                }
+                            </td>
+                            <td>
                                 @if (ithem.Roles.Contains(ViewData["NameAdminRole"].ToString()))
                                 {
                                     <a class="btn btn-dark" href="/Admin/RemoveAdminRole?id=@ithem.Id">Remove admin role</a>
@@ -50,14 +59,9 @@
                                 {
                                     <a class="btn btn-dark" href="/Admin/AddAdminRole?id=@ithem.Id">Assign admin role</a>
                                 }
-                                @if(ithem.Active)
-                                {
-                                    <a class="btn btn-danger" href="/Admin/Block?id=@ithem.Id">Block</a>
-                                }
-                                else
-                                {
-                                    <a class="btn btn-success" href="/Admin/Unblock?id=@ithem.Id">Unblock</a>
-                                }
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" href="/UserCollections/Index?userName=@ithem.UserName">View and Edit Collections</a>
                             </td>
                             <td>
                                 <a onclick="return window.confirm('Are you sure?')" href="/Admin/Delete?id=@ithem.Id"><img src="@Url.Content("/img/delete.ico")" alt="Delete" style="height: 30px"></a>

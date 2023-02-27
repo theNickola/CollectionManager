@@ -13,12 +13,10 @@ namespace CollectionManager.Repositories.Implementation
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        public AdminService(ApplicationDbContext context, UserManager<User> userManager, SignInManager<User> signInManager)
+        public AdminService(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
             _userManager = userManager;
-            _signInManager = signInManager;
         }
 
         public bool AddAdminRole(string id)
