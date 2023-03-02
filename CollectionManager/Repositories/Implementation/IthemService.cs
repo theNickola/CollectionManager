@@ -1,6 +1,7 @@
 ﻿using CollectionManager.Data;
 using CollectionManager.Models.Domain;
 using CollectionManager.Repositories.Abstract;
+using Microsoft.EntityFrameworkCore;
 
 namespace CollectionManager.Repositories.Implementation
 {
@@ -60,6 +61,22 @@ namespace CollectionManager.Repositories.Implementation
         public IEnumerable<Ithem> GetIthemsCollection(string idCollection)
         {
             return _context.Ithems.ToList().Where(ithem => ithem.CollectionId == idCollection).OrderBy(i => i.Name);
+        }
+        public IEnumerable<Ithem> GetLastIthems()
+        {
+            return _context.Ithems.ToList().OrderByDescending(ithem => ithem.DateCreation).Take(CountLastIthems());
+        }
+        private byte CountLastIthems()
+        {
+            return 10;
+        }
+        public Ithem? GetIthemWithIncludes(string id)
+        {
+            var ithemInList = _context.Ithems
+                .Include(i => i.Collection).ThenInclude(c => c.User)
+                .Include(i => i.Tags)
+                .ToList();
+            return ithemInList.First(i => i.Id == id);
         }
     }
 }

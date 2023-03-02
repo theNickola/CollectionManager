@@ -1,8 +1,140 @@
-﻿@{
+﻿@using CollectionManager.Models.ViewModels;
+@model DataStartPage
+
+@{
     ViewData["Title"] = "Home Page";
 }
+<style>
+    .main-flex{
+        display:flex;
+        flex-wrap: wrap;
+    }
+
+    .item-flex {
+        border: 1px solid gray;
+        border-radius: 10px;
+    }
+</style>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>to CollectionManager</p>
+    <h5 class="fw-bold" style="margin-top:-22px; ">to CollectionManager</h5>
+</div>
+
+<div class="container main-flex">
+    <div class="container col-6 item-flex">
+        <h4 class="text-primary fw-bold text-center" style="margin-bottom:-4px">@("last added items".ToUpper())</h4>
+        <table class="table table-striped table-bordered" style="line-height: 10px">
+            <thead>
+                <tr>
+                    <th class="col-1">#</th>
+                    <th>Ithem name</th>
+                    <th>Date creation</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 0;
+                }
+                @foreach (var item in Model.LastItems)
+                {
+                    <tr>
+                        <td>
+                            @(++i)
+                        </td>
+                        <td class="fw-bold">
+                            <a class="text-decoration-none" href="/Home/Ithem?id=@item.Id">
+                                @item.Name
+                            </a>
+                        </td>
+                        <td>
+                            <i>@item.DateCreation</i>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="container col-6 item-flex">
+        <h4 class="text-primary fw-bold text-center" style="margin-bottom:-4px">@("the biggest collections".ToUpper())</h4>
+        <table class="table table-striped table-bordered" style="line-height: 10px">
+            <thead>
+                <tr>
+                    <th class="col-1">#</th>
+                    <th>Collection name</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    i = 0;
+                }
+                @foreach (var item in Model.BigCollections)
+                {
+                    <tr>
+                        <td>
+                            @(++i)
+                        </td>
+                        <td class="fw-bold">
+                            <a class="text-decoration-none" href="http://google.com">
+                                @item.Name
+                            </a>
+                        </td>
+                        <td>
+                            @item.Ithems.Count
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="container col-12 item-flex" style="margin-top:20px">
+        <h3 class="text-primary fw-bold text-center">@("all collections".ToUpper())</h3>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-1">#</th>
+                    <th>Collection name</th>
+                    <th>Author</th>
+                    <th>Topic</th>
+                    <th>Description</th>
+                    <th>Date creation</th>
+                    <th>Ithems</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    i = 0;
+                }
+                @foreach (var item in Model.AllCollections)
+                {
+                    <tr>
+                        <td>
+                            @(++i)
+                        </td>
+                        <td class="fw-bold">
+                            <a class="text-decoration-none" href="http://google.com">
+                                @item.Name
+                            </a>
+                        </td>
+                        <td>
+                            @item.User.Name
+                        </td>
+                        <td>
+                            @item.Topic.Name
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                        <td>
+                            @item.DateCreation
+                        </td>
+                        <td>
+                            @item.Ithems.Count
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

@@ -12,5 +12,7 @@ namespace CollectionManager.Repositories.Abstract
         List<string> GetNamesGroupOptionalFields();
         byte GetCountOptionalFieldsInGroup();
         Dictionary<string, string[]> GetNamesValuesOptionalFields(string id);
+        IEnumerable<Collection> GetBigCollections();
+        IEnumerable<Collection> GetAll();
     }
 }

@@ -1,0 +1,71 @@
+﻿@using CollectionManager.Models.Domain;
+@model Ithem
+
+@{
+    ViewData["Title"] = "Ithems";
+}
+
+<h3 class="fw-bold text-center">@Model.Name</h3>
+<p><strong>Author:</strong> @Model.Collection.User.Name</p>
+<p><strong>Collection:</strong> @Model.Collection.Name</p>
+<p><strong>Tags:</strong> 
+@foreach (var item in Model.Tags)
+{
+    @string.Format($"#{item.Name}   ")
+}
+</p>
+
+@if(Model.Collection.NameDigitField1!=null)
+{
+    <p><strong>@Model.Collection.NameDigitField1:</strong> @Model.DigitField1</p>
+}
+@if (Model.Collection.NameDigitField2 != null)
+{
+    <p><strong>@Model.Collection.NameDigitField2:</strong> @Model.DigitField2</p>
+}
+@if (Model.Collection.NameDigitField3 != null)
+{
+    <p><strong>@Model.Collection.NameDigitField3:</strong> @Model.DigitField3</p>
+}
+
+
+@if (Model.Collection.NameStringField1 != null)
+{
+    <p><strong>@Model.Collection.NameStringField1:</strong> @Model.StringField1</p>
+}
+@if (Model.Collection.NameStringField2 != null)
+{
+    <p><strong>@Model.Collection.NameStringField2:</strong> @Model.StringField2</p>
+}
+@if (Model.Collection.NameStringField3 != null)
+{
+    <p><strong>@Model.Collection.NameStringField3:</strong> @Model.StringField3</p>
+}
+
+
+@if (Model.Collection.NameDateField1 != null)
+{
+    <p><strong>@Model.Collection.NameDateField1:</strong> @Model.DateField1</p>
+}
+@if (Model.Collection.NameDateField2 != null)
+{
+    <p><strong>@Model.Collection.NameDateField2:</strong> @Model.DateField2</p>
+}
+@if (Model.Collection.NameDateField3 != null)
+{
+    <p><strong>@Model.Collection.NameDateField3:</strong> @Model.DateField3</p>
+}
+
+
+@if (Model.Collection.NameBoolField1 != null)
+{
+    <p><strong>@Model.Collection.NameBoolField1:</strong> @Model.BoolField1</p>
+}
+@if (Model.Collection.NameBoolField2 != null)
+{
+    <p><strong>@Model.Collection.NameBoolField2:</strong> @Model.BoolField2</p>
+}
+@if (Model.Collection.NameBoolField3 != null)
+{
+    <p><strong>@Model.Collection.NameBoolField3:</strong> @Model.BoolField3</p>
+}

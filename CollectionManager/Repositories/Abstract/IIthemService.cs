@@ -10,5 +10,7 @@ namespace CollectionManager.Repositories.Abstract
         bool Delete(string id);
         Ithem? FindById(string id);
         IEnumerable<Ithem> GetIthemsCollection(string idCollection);
+        IEnumerable<Ithem> GetLastIthems();
+        Ithem? GetIthemWithIncludes(string id);
     }
 }

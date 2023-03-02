@@ -128,17 +128,13 @@
                     <input id="addTag" type="button" value="Add Tag" class="btn-group" />
                     <script>
                         let countTag = 0;
-
                         document.getElementById("addTag").disabled = true;
-
                         document.getElementById("Tags").addEventListener("input", function (e) {
                             if (document.getElementById("Tags").value === "")
                                 document.getElementById("addTag").disabled = true;
                             else
                                 document.getElementById("addTag").disabled = false;
                         });
-                        
-
                         document.getElementById('addTag').onclick = function () {
                             for (let element of document.getElementsByName('sectionTag')) {
                                 if (element.getAttribute("style") === "display:none") {

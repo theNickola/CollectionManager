@@ -2,7 +2,6 @@
 using CollectionManager.Models.Domain;
 using CollectionManager.Repositories.Abstract;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace CollectionManager.Repositories.Implementation
@@ -11,11 +10,9 @@ namespace CollectionManager.Repositories.Implementation
     public class CollectionService : ICollectionService
     {
         private readonly ApplicationDbContext _context;
-        private readonly IAdminService _adminService;
-        public CollectionService(ApplicationDbContext context, IAdminService adminService)
+        public CollectionService(ApplicationDbContext context)
         {
             _context = context;
-            _adminService = adminService;
         }
 
         public bool Add(Collection model)
@@ -64,10 +61,10 @@ namespace CollectionManager.Repositories.Implementation
         {
             return _context.Collections?.Find(id);
         }
-        public IEnumerable<Collection> GetUserCollections(string identityName)
+        public IEnumerable<Collection> GetUserCollections(string userName)
         {
             var data = _context.Collections.Include(c => c.User).Include(c => c.Topic).ToList();
-            var collections = data.Where(c => c.User.Email == identityName).OrderBy(c => c.Name);
+            var collections = data.Where(c => c.User.Email == userName).OrderBy(c => c.Name);
             return collections;
         }
         public List<string> GetNamesGroupOptionalFields()
@@ -77,6 +74,10 @@ namespace CollectionManager.Repositories.Implementation
         public byte GetCountOptionalFieldsInGroup()
         {
             return 3;
+        }
+        public byte GetCountBigCollections()
+        {
+            return 10;
         }
         public Dictionary<string, string[]> GetNamesValuesOptionalFields(string id)
         {
@@ -110,6 +111,14 @@ namespace CollectionManager.Repositories.Implementation
                 }
             };
             return namesValues;
+        }
+        public IEnumerable<Collection> GetBigCollections()
+        {
+            return _context.Collections.Include(c => c.User).Include(c => c.Topic).OrderByDescending(col => col.Ithems.Count).Take(GetCountBigCollections()); ;
+        }
+        public IEnumerable<Collection> GetAll()
+        {
+            return _context.Collections.ToList().OrderBy(c=>c.Name);
         }
     }
 }
