@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using CollectionManager.Models.Domain;
 
 namespace CollectionManager.Areas.Identity.Pages.Account
 {
@@ -124,8 +125,7 @@ namespace CollectionManager.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     WebApplicationBuilder builder = WebApplication.CreateBuilder();
-                    await _userManager.AddToRoleAsync(user, 
-                        builder.Configuration.GetSection("RolesApplication")["UserRole"]);
+                    await _userManager.AddToRoleAsync(user, RolesInit.GetNameUserRole());
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);

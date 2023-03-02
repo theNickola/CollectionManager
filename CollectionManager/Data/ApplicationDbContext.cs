@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CollectionManager.Models.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,11 +13,15 @@ namespace CollectionManager.Data
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Topic> Topics { get; set; }
-        public DbSet<Collection> Collections { get; set; }
         public DbSet<Ithem> Ithems { get; set; }
-        public DbSet<IthemTag> IthemTags { get; set; }
+        public DbSet<Collection> Collections { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<IthemLike> IthemLikes { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Like>().HasKey(l => new { l.IthemId, l.UserId });
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Data;
+﻿using CollectionManager.Models.Domain;
+using Microsoft.AspNetCore.Identity;
 
 namespace CollectionManager.Data
 {
@@ -28,10 +28,8 @@ namespace CollectionManager.Data
             var userInDb = await userManager.FindByEmailAsync(user.Email);
             if (userInDb == null)
             {
-                await userManager.CreateAsync(user, 
-                    builder.Configuration.GetSection("AdminInformation")["FirsrPassword"]);
-                await userManager.AddToRoleAsync(user, 
-                    builder.Configuration.GetSection("RolesApplication")["AdminRole"]);
+                await userManager.CreateAsync(user, builder.Configuration.GetSection("AdminInformation")["FirsrPassword"]);
+                await userManager.AddToRolesAsync(user, new List<string> { GetNameUserRole(), GetNameAdminRole() });
             }
         }
         static User GetUserAdmin(WebApplicationBuilder builder)
@@ -44,6 +42,16 @@ namespace CollectionManager.Data
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true
             };
+        }
+        public static string GetNameAdminRole()
+        {
+            WebApplicationBuilder? builder = WebApplication.CreateBuilder();
+            return builder.Configuration.GetSection("RolesApplication")["AdminRole"];
+        }
+        public static string GetNameUserRole()
+        {
+            WebApplicationBuilder? builder = WebApplication.CreateBuilder();
+            return builder.Configuration.GetSection("RolesApplication")["UserRole"];
         }
     }
 }

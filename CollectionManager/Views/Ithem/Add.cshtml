@@ -1,0 +1,197 @@
+﻿@using CollectionManager.Models.Domain;
+@model Ithem
+@{
+    ViewData["Title"] = "Add Ithems";
+}
+<h6>from the collection "@ViewBag.CollectionName"</h6>
+<h6>by Autor @ViewBag.AuthorName</h6>
+<div class="container pt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>@ViewData["Title"]</h3>
+            <form asp-controller="Ithem" asp-action="Add" method="post">
+                <div class="form-group">
+                    <label asp-for="Name">Name *</label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <input type="text" class="form-control" asp-for="Name" />
+                    @foreach (var item in ViewBag.OptionalCollectionFields)
+                    {
+                        @switch (item.Key.ToString())
+                        {
+                            @case "DigitField":
+                                <div id=@(item.Key+"s")>
+                                    @for (int i = 1; i <= ViewBag.CountOptionalFieldsInGroup; i++)
+                                    {
+                                        @if (item.Value[i-1] != null)
+                                        {
+                                            <div>
+                                                @{
+                                                    string TypeFieldN = string.Format($"{item.Key}{i}");
+                                                }
+                                                <label for=@TypeFieldN>@item.Value[i-1]</label>
+                                                <span class="text-danger field-validation-valid" data-valmsg-for=@TypeFieldN data-valmsg-replace="true"></span>
+                                                <input type="number" class="form-control" data-val="true" data-val-number="This field must be a number." id=@TypeFieldN name=@TypeFieldN>
+                                                <input name="__Invariant" type="hidden" value=@item.Value[i-1]>
+                                            </div>
+                                        }
+
+                                    }
+                                </div>
+                            break;
+                            @case "StringField":
+                            <div id=@(item.Key+"s")>
+                                @for (int i = 1; i <= ViewBag.CountOptionalFieldsInGroup; i++)
+                                {
+                                    @if (item.Value[i - 1] != null)
+                                    {
+                                        <div>
+                                            @{
+                                                string TypeFieldN = string.Format($"{item.Key}{i}");
+                                            }
+                                            <label for=@TypeFieldN>@item.Value[i-1]</label>
+                                            <span class="text-danger field-validation-valid" data-valmsg-for=@TypeFieldN data-valmsg-replace="true"></span>
+                                            <input type="text" class="form-control" id=@TypeFieldN name=@TypeFieldN>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            break;
+                            @case "MarkdownField":
+                            <div id=@(item.Key+"s")>
+                                @for (int i = 1; i <= ViewBag.CountOptionalFieldsInGroup; i++)
+                                {
+                                    @if (item.Value[i - 1] != null)
+                                    {
+                                        <div>
+                                            @{
+                                                string TypeFieldN = string.Format($"{item.Key}{i}");
+                                            }
+                                            <label for=@TypeFieldN>@item.Value[i-1]</label>
+                                            <span class="text-danger field-validation-valid" data-valmsg-for=@TypeFieldN data-valmsg-replace="true"></span>
+                                            <textarea class="form-control" id=@TypeFieldN name=@TypeFieldN></textarea>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            break;
+                            @case "DateField":
+                            <div id=@(item.Key+"s")>
+                                @for (int i = 1; i <= ViewBag.CountOptionalFieldsInGroup; i++)
+                                {
+                                    @if (item.Value[i - 1] != null)
+                                    {
+                                        <div>
+                                            @{
+                                                string TypeFieldN = string.Format($"{item.Key}{i}");
+                                            }
+                                            <label for=@TypeFieldN>@item.Value[i-1]</label>
+                                            <span class="text-danger field-validation-valid" data-valmsg-for=@TypeFieldN data-valmsg-replace="true"></span>
+                                            <input type="date" class="form-control" id=@TypeFieldN name=@TypeFieldN>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            break;
+                            @case "BoolField":
+                            <div id=@(item.Key+"s") class="m-2">
+                                @for (int i = 1; i <= ViewBag.CountOptionalFieldsInGroup; i++)
+                                {
+                                    @if (item.Value[i - 1] != null)
+                                    {
+                                        <div>
+                                            @{
+                                                string TypeFieldN = string.Format($"{item.Key}{i}");
+                                            }
+                                            <label for=@TypeFieldN>@item.Value[i-1]</label>
+                                            <input type="checkbox" class="form-check-input" id=@TypeFieldN name=@TypeFieldN>
+                                            <span class="text-danger field-validation-valid" data-valmsg-for=@TypeFieldN data-valmsg-replace="true"></span>
+                                        </div>
+                                        <script>
+                                            document.getElementById('@TypeFieldN').onclick = function () {
+                                            document.getElementById('@TypeFieldN').value = document.getElementById('@TypeFieldN').checked;
+                                            }
+                                        </script>
+                                    }
+                                }
+                            </div>
+                            break;
+                        }
+                    }
+                    <label for=Tags>Tags</label>
+                    <input class="form-control col-8" type="search" list="TagNames" id="Tags" placeholder="Enter tag here" />
+                    <datalist id="TagNames">
+                        @foreach (var item in ViewBag.Tags)
+                        {
+                            <option>@item.Name</option>
+                        }
+                    </datalist>
+                    <input id="addTag" type="button" value="Add Tag" class="btn-group" />
+                    <script>
+                        let countTag = 0;
+
+                        document.getElementById("addTag").disabled = true;
+
+                        document.getElementById("Tags").addEventListener("input", function (e) {
+                            if (document.getElementById("Tags").value === "")
+                                document.getElementById("addTag").disabled = true;
+                            else
+                                document.getElementById("addTag").disabled = false;
+                        });
+                        
+
+                        document.getElementById('addTag').onclick = function () {
+                            for (let element of document.getElementsByName('sectionTag')) {
+                                if (element.getAttribute("style") === "display:none") {
+                                    element.children[0].setAttribute("value", document.getElementById('Tags').value);
+                                    document.getElementById('Tags').value = '';
+                                    document.getElementById("addTag").disabled = true;
+                                    element.setAttribute("style", "display:initial");
+                                    countTag++;
+                                    break;
+                                }
+                            }
+                            if (countTag === @ViewBag.CountTags)
+                                document.getElementById('addTag').disabled = true;
+                        }
+                    </script>
+                    @for (int i = 1; i <= ViewBag.CountTags; i++)
+                    {
+                        <div>
+                            @{
+                                string sectionTagN = string.Format("sectionTag" + i);
+                                string tagN = string.Format("tag" + i);
+                                string delTagN = string.Format("delTag" + i); 
+                            }
+                            <div id=@sectionTagN name="sectionTag" style="display:none">
+                                <input id=@tagN name="ItemTagss" type="text" class="btn-outline-primary btn-sm" />
+                                <input id=@delTagN type="button" class="btn-close btn-group-vertical" />
+                                
+                            </div>
+                            <script>
+                                document.getElementById('@delTagN').onclick = function () {
+                                    document.getElementById('@tagN').value = '';
+                                    document.getElementById('@sectionTagN').setAttribute("style", "display:none");
+                                    countTag--;
+                                    if (countTag === (@ViewBag.CountTags-1))
+                                        document.getElementById('addTag').disabled = false;
+                                }
+
+                            </script>
+                        </div>
+                    }
+                    <input type="hidden" asp-for="CollectionId" value="@ViewBag.CollectionId" />
+                </div>
+                <div class="form-group pt-3">
+                    <button type="submit" class="btn btn-dark">Add</button>
+                    <a href="/Ithem/Index?collectionId=@ViewBag.CollectionId" class="btn btn-primary">List</a>
+                </div>
+                @if (TempData["msg"] != null)
+                {
+                    <div class="form-group text-primary">
+                        @TempData["msg"]
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+</div>
