@@ -1,22 +1,21 @@
 ﻿using CollectionManager.Data;
 using CollectionManager.Models.Domain;
 using CollectionManager.Repositories.Abstract;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CollectionManager.Repositories.Implementation
 {
-    public class TopicService : ITopicService
+    public class IthemService : IIthemService
     {
         private readonly ApplicationDbContext _context;
-        public TopicService(ApplicationDbContext context)
+        public IthemService(ApplicationDbContext context)
         {
             _context = context;
         }
-        public bool Add(Topic model)
+        public bool Add(Ithem model)
         {
             try
             {
-                _context.Topics.Add(model);
+                _context.Ithems.Add(model);
                 _context.SaveChanges();
                 return true;
             }
@@ -25,11 +24,11 @@ namespace CollectionManager.Repositories.Implementation
                 return false;
             }
         }
-        public bool Update(Topic model)
+        public bool Update(Ithem model)
         {
             try
             {
-                _context.Topics.Update(model);
+                _context.Ithems.Update(model);
                 _context.SaveChanges();
                 return true;
             }
@@ -42,10 +41,10 @@ namespace CollectionManager.Repositories.Implementation
         {
             try
             {
-                var topic = this.FindById(id);
-                if (topic == null)
+                var ithem = this.FindById(id);
+                if (ithem == null)
                     return false;
-                _context.Remove(topic);
+                _context.Remove(ithem);
                 _context.SaveChanges();
                 return true;
             }
@@ -54,17 +53,13 @@ namespace CollectionManager.Repositories.Implementation
                 return false;
             }
         }
-        public Topic? FindById(string id)
+        public Ithem? FindById(string id)
         {
-            return _context.Topics.Find(id);
+            return _context.Ithems?.Find(id);
         }
-        public IEnumerable<Topic> GetAll()
+        public IEnumerable<Ithem> GetIthemsCollection(string idCollection)
         {
-            return _context.Topics.ToList().OrderBy(t => t.Name);
-        }
-        public SelectList GetSelectList()
-        {
-            return new SelectList(_context.Topics, "Id", "Name");
+            return _context.Ithems.ToList().Where(ithem => ithem.CollectionId == idCollection).OrderBy(i => i.Name);
         }
     }
 }

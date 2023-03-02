@@ -17,7 +17,7 @@ namespace CollectionManager.Controllers
         }
         public IActionResult Index()
         {
-            if (!IsAdminAcess())
+            if (!IsAdminAccess())
                 return Redirect("/Identity/Account/AccessDenied");
             var topics = _topicService.GetAll();
             return View(topics);
@@ -29,7 +29,7 @@ namespace CollectionManager.Controllers
         [HttpPost]
         public IActionResult Add(Topic model)
         {
-            if (!IsAdminAcess())
+            if (!IsAdminAccess())
                 return Redirect("/Identity/Account/AccessDenied");
             if (!ModelState.IsValid)
             {
@@ -46,7 +46,7 @@ namespace CollectionManager.Controllers
         }
         public IActionResult Update(string id)
         {
-            if (!IsAdminAcess())
+            if (!IsAdminAccess())
                 return Redirect("/Identity/Account/AccessDenied");
             var topic = _topicService.FindById(id);
             return View(topic);
@@ -54,7 +54,7 @@ namespace CollectionManager.Controllers
         [HttpPost]
         public IActionResult Update(Topic model)
         {
-            if (!IsAdminAcess())
+            if (!IsAdminAccess())
                 return Redirect("/Identity/Account/AccessDenied");
             if (!ModelState.IsValid)
             {
@@ -70,14 +70,14 @@ namespace CollectionManager.Controllers
         }
         public IActionResult Delete(string id)
         {
-            if (!IsAdminAcess())
+            if (!IsAdminAccess())
                 return Redirect("/Identity/Account/AccessDenied");
             var result = _topicService.Delete(id);
             if (!result) 
                 TempData["msg"] = "Deletion error";
             return RedirectToAction("Index");
         }
-        private bool IsAdminAcess()
+        private bool IsAdminAccess()
         {
             try
             {

@@ -10,7 +10,7 @@ namespace CollectionManager.Models.Domain
         public string TextComment { get; set; }
         public DateTime DateCreation { get; set; } = DateTime.Now;
         public string IthemId { get; set; }
-        public Ithem Ithem { get; set; }
+        public Ithem? Ithem { get; set; }
         [Column(TypeName = "varchar(36)")]
         public string UserId { get; set; }
     }

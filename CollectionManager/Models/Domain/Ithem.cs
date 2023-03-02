@@ -5,7 +5,7 @@ namespace CollectionManager.Models.Domain
 {
     public class Ithem
     {
-        [Column(TypeName = "varchar(32)")]
+        [Column(TypeName = "varchar(36)")]
         public string Id { get; set; } = Guid.NewGuid().ToString();
         [Column(TypeName = "varchar(50)")]
         public string Name { get; set; }
@@ -31,10 +31,10 @@ namespace CollectionManager.Models.Domain
         public bool? BoolField1 { get; set; }
         public bool? BoolField2 { get; set; }
         public bool? BoolField3 { get; set; }
-        public List<Comment> Comments { get; set; }
+        public List<Comment> Comments { get; set; } = new();
         public List<Tag> Tags { get; set; } = new();
         public List<Like> Likes { get; set; } = new();
         public string CollectionId { get; set; }
-        public Collection Collection { get; set; }
+        public Collection? Collection { get; set; }
     }
 }

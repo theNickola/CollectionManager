@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CollectionManager.Models.Domain
@@ -14,6 +15,7 @@ namespace CollectionManager.Models.Domain
         public string? ImagePath { get; set; }
         public DateTime DateCreation { get; set; } = DateTime.Now;
         [Column(TypeName = "varchar(50)")]
+        [Required]
         public string? NameDigitField1 { get; set; }
         [Column(TypeName = "varchar(50)")]
         public string? NameDigitField2 { get; set; }
@@ -44,9 +46,9 @@ namespace CollectionManager.Models.Domain
         [Column(TypeName = "varchar(50)")]
         public string? NameBoolField3 { get; set; }
         public string TopicId { get; set; }
-        public Topic Topic { get; set; }
+        public Topic? Topic { get; set; }
         public string UserId { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; }
         public List<Ithem> Ithems { get; set; } = new();
     }
 }

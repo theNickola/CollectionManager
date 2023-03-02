@@ -1,0 +1,47 @@
+﻿@using CollectionManager.Models.Domain;
+@model IEnumerable<Ithem>
+@{
+    ViewData["Title"] = "Ithems";
+}
+<h1>@ViewData["Title"]</h1>
+<h6>from the collection "@ViewBag.CollectionName"</h6>
+<h6>by Autor @ViewBag.AuthorName</h6>
+<div class="container pt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <a class="btn btn-dark" href="/Ithem/Add?CollectionId=@ViewBag.CollectionId">Add @ViewData["Title"]</a>
+        </div>
+    </div>
+    @if (Model.Count() == 0)
+    {
+        <h4 class="text-center text-primary">This collection is empty</h4>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <br />
+                <table class="table table-striped table-bordered table-light">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>
+                                        <a class="btn btn-success" href="/Ithem/Update?id=@item.Id">Edit</a>
+                                    <a class="btn btn-danger" onclick="return window.confirm('Are you sure?')" href="/Ithem/Delete?id=@item.Id&collectionId=@ViewBag.CollectionId">Delete</a>
+                                    </td>
+                                </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

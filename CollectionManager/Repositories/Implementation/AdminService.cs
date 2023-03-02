@@ -92,12 +92,12 @@ namespace CollectionManager.Repositories.Implementation
         }
         public User? FindById(string id)
         {
-            return _context.Users.Find(id);
+            return _context.Users?.Find(id);
         }
         public IEnumerable<UserInfo> GetAll()
         {
             List<UserInfo> userList = new();
-            var users = _context.Users.ToList();
+            var users = _context.Users.ToList().OrderBy(u => u.UserName);
             foreach (var user in users)
                 userList.Add(new UserInfo(user) { Roles = GetUserRoles(user.Id.ToString()).Result.ToString() });
             return userList;

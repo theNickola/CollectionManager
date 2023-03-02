@@ -10,11 +10,11 @@
             
             @if (UserManager.IsInRoleAsync(UserManager.FindByEmailAsync(User.Identity?.Name).Result, CollectionManager.Data.RolesInit.GetNameAdminRole()).Result)
             {
-                <a class="nav-link text-dark" href="/UserCollections/Index?userName=@User.Identity?.Name">Hello, <b class="text-primary">@UserManager.FindByEmailAsync(User.Identity?.Name).Result.Name</b>!</a>
+                <a class="nav-link text-dark" href="/UserCollection/Index?userName=@User.Identity?.Name">Hello, <b class="text-primary">@UserManager.FindByEmailAsync(User.Identity?.Name).Result.Name</b>!</a>
             }
             else
             {
-                <a class="nav-link text-dark" href="/UserCollections/Index?userName=@User.Identity?.Name">Hello, <b>@UserManager.FindByEmailAsync(User.Identity?.Name).Result.Name</b>!</a>
+                <a class="nav-link text-dark" href="/UserCollection/Index?userName=@User.Identity?.Name">Hello, <b>@UserManager.FindByEmailAsync(User.Identity?.Name).Result.Name</b>!</a>
                 //<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
             }
         </li>

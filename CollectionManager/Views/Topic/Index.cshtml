@@ -7,7 +7,7 @@
 <div class="container pt-5">
     <div class="row">
         <div class="col-md-6">
-            <a class="btn btn-dark" href="/Topic/Add">Add more</a>
+            <a class="btn btn-dark" href="/Topic/Add">Add @ViewData["Title"]</a>
             
         </div>
     </div>
@@ -18,17 +18,19 @@
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Description</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach(var ithem in Model)
+                    @foreach(var item in Model)
                     {
                         <tr>
-                            <td>@ithem.Name</td>
+                            <td>@item.Name</td>
+                            <td>@item.Description</td>
                             <td>
-                                <a class="btn btn-success" href="/Topic/Update?id=@ithem.Id">Edit</a>
-                                <a class="btn btn-danger" onclick="return window.confirm('Are you sure?')" href="/Topic/Delete?id=@ithem.Id">Delete</a>
+                                <a class="btn btn-success" href="/Topic/Update?id=@item.Id">Edit</a>
+                                <a class="btn btn-danger" onclick="return window.confirm('Are you sure?')" href="/Topic/Delete?id=@item.Id">Delete</a>
                             </td>
                         </tr>
                     }

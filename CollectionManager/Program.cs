@@ -25,6 +25,8 @@ builder.Services.AddScoped<ITopicService, TopicService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAccessService, AccessService>();
 builder.Services.AddScoped<ICollectionService, CollectionService>();
+builder.Services.AddScoped<IIthemService, IthemService>();
+builder.Services.AddScoped<ITagService, TagService>();
 
 var app = builder.Build();
 
