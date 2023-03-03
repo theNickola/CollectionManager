@@ -14,5 +14,6 @@ namespace CollectionManager.Repositories.Abstract
         Dictionary<string, string[]> GetNamesValuesOptionalFields(string id);
         IEnumerable<Collection> GetBigCollections();
         IEnumerable<Collection> GetAll();
+        Collection? GetCollectionWithInclude(string id);
     }
 }

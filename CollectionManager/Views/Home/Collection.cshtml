@@ -1,0 +1,39 @@
+﻿@using CollectionManager.Models.Domain;
+@model Collection
+
+@{
+    ViewData["Title"] = "Collection";
+}
+<style>
+    .main-flex{
+        display:flex;
+        flex-wrap: wrap;
+        justify-content:space-around
+    }
+
+    .item-flex {
+        border: 1px solid gray;
+        border-radius: 10px;
+        margin: 10px;
+        padding:10px;
+    }
+</style>
+
+
+<h3 class="fw-bold text-center">@Model.Name</h3>
+<p><strong>Author:</strong> @Model.User.Name</p>
+<p><strong>Topic:</strong> @Model.Topic.Name</p>
+<p><strong>Description:</strong> @Model.Description</p>
+
+<h4 class="fw-bold text-center">Ithems:</h4>
+<div class="container main-flex">
+    @foreach (var item in Model.Ithems.OrderBy(i => i.Name))
+    {
+        <div class="item-flex col">
+        <h5 class="text-center">@item.Name</h5>
+            <div class="text-center">
+                <a class="btn btn-primary" href="/Home/Ithem?id=@item.Id">View</a>
+            </div>
+        </div>
+    }
+</div>

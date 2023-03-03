@@ -58,9 +58,9 @@ namespace CollectionManager.Repositories.Implementation
         {
             return _context.Ithems?.Find(id);
         }
-        public IEnumerable<Ithem> GetIthemsCollection(string idCollection)
+        public IEnumerable<Ithem> GetIthemsCollection(string collectionId)
         {
-            return _context.Ithems.ToList().Where(ithem => ithem.CollectionId == idCollection).OrderBy(i => i.Name);
+            return _context.Ithems.ToList().Where(ithem => ithem.CollectionId == collectionId).OrderBy(i => i.Name);
         }
         public IEnumerable<Ithem> GetLastIthems()
         {

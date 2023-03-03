@@ -31,6 +31,10 @@ namespace CollectionManager.Controllers
         {
             return View(_ithemService.GetIthemWithIncludes(id));
         }
+        public IActionResult Collection(string id)
+        {
+            return View(_collectionService.GetCollectionWithInclude(id));
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

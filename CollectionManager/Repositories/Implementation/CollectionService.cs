@@ -120,5 +120,14 @@ namespace CollectionManager.Repositories.Implementation
         {
             return _context.Collections.ToList().OrderBy(c=>c.Name);
         }
+        public Collection? GetCollectionWithInclude(string id)
+        {
+            var list = _context.Collections
+                .Include(c => c.Ithems)
+                .Include(c=>c.Topic)
+                .Include(c=>c.User)
+                .ToList();
+            return list.First(c => c.Id == id);
+        }
     }
 }
