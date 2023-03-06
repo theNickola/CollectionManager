@@ -12,5 +12,7 @@ namespace CollectionManager.Repositories.Abstract
         IEnumerable<Ithem> GetIthemsCollection(string collectionId);
         IEnumerable<Ithem> GetLastIthems();
         Ithem? GetIthemWithIncludes(string id);
+        IEnumerable<Tag> GetTags(string id);
+        IEnumerable<Comment> GetComments(string id);
     }
 }

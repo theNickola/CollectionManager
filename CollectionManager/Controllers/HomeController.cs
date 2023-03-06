@@ -29,7 +29,13 @@ namespace CollectionManager.Controllers
         }
         public IActionResult Ithem(string id)
         {
-            return View(_ithemService.GetIthemWithIncludes(id));
+            IthemPage ithemPage = new()
+            {
+                Ithem = _ithemService.GetIthemWithIncludes(id),
+                Tags = _ithemService.GetTags(id),
+                Comments = _ithemService.GetComments(id)
+            };
+            return View(ithemPage);
         }
         public IActionResult Collection(string id)
         {

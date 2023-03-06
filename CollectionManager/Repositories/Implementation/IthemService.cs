@@ -72,11 +72,23 @@ namespace CollectionManager.Repositories.Implementation
         }
         public Ithem? GetIthemWithIncludes(string id)
         {
-            var ithemInList = _context.Ithems
+            var ithem = _context.Ithems
                 .Include(i => i.Collection).ThenInclude(c => c.User)
                 .Include(i => i.Tags)
                 .ToList();
-            return ithemInList.First(i => i.Id == id);
+            return ithem.First(i => i.Id == id);
+        }
+        public IEnumerable<Tag> GetTags(string id)
+        {
+            var tags = _context.Tags
+                .SelectMany(t => t.Ithems, (t, i) => new { Tag = t, Ithem = i })
+                .Where(t => t.Ithem.Id==id)
+                .Select(t=>t.Tag);
+            return tags;
+        }
+        public IEnumerable<Comment> GetComments(string id)
+        {
+            return _context.Comments.Where(c => c.IthemId == id);
         }
     }
 }

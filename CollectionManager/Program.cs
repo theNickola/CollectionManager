@@ -4,19 +4,18 @@ using CollectionManager.Repositories.Abstract;
 using CollectionManager.Repositories.Implementation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using CollectionManager.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
-// Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-//builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddIdentity<User, IdentityRole>(/*options => options.SignIn.RequireConfirmedAccount = true*/)
+builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultUI()
     .AddDefaultTokenProviders();
@@ -27,10 +26,13 @@ builder.Services.AddScoped<IAccessService, AccessService>();
 builder.Services.AddScoped<ICollectionService, CollectionService>();
 builder.Services.AddScoped<IIthemService, IthemService>();
 builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<ILikeService, LikeService>();
+
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -38,7 +40,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -59,5 +60,7 @@ using (var scope = app.Services.CreateScope())
 {
     await RolesInit.SeedRolesAndAdminAsync(scope.ServiceProvider);
 }
+
+app.MapHub<CommentHub>("/comment");
 
 app.Run();

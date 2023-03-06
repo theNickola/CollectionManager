@@ -1,13 +1,27 @@
-﻿@using CollectionManager.Models.Domain;
-@model Ithem
+﻿@using CollectionManager.Models.ViewModels;
+@model IthemPage
 
 @{
     ViewData["Title"] = "Ithem";
 }
 
-<h3 class="fw-bold text-center">@Model.Name</h3>
-<p><strong>Author:</strong> @Model.Collection.User.Name</p>
-<p><strong>Collection:</strong> @Model.Collection.Name</p>
+<style>
+    .main-flex {
+        display: flex;
+        flex-direction:column;
+    }
+
+    .item-flex {
+        border: 1px solid gray;
+        border-radius: 10px;
+        margin: 10px;
+        padding: 10px;
+    }
+</style>
+
+<h3 class="fw-bold text-center">@Model.Ithem.Name</h3>
+<p><strong>Author:</strong> @Model.Ithem.Collection.User.Name</p>
+<p><strong>Collection:</strong> @Model.Ithem.Collection.Name</p>
 <p><strong>Tags:</strong> 
 @foreach (var item in Model.Tags)
 {
@@ -15,57 +29,164 @@
 }
 </p>
 
-@if(Model.Collection.NameDigitField1!=null)
+@if (Model.Ithem.Collection.NameDigitField1 != null)
 {
-    <p><strong>@Model.Collection.NameDigitField1:</strong> @Model.DigitField1</p>
+    <p><strong>@Model.Ithem.Collection.NameDigitField1:</strong> @Model.Ithem.DigitField1</p>
 }
-@if (Model.Collection.NameDigitField2 != null)
+@if (Model.Ithem.Collection.NameDigitField2 != null)
 {
-    <p><strong>@Model.Collection.NameDigitField2:</strong> @Model.DigitField2</p>
+    <p><strong>@Model.Ithem.Collection.NameDigitField2:</strong> @Model.Ithem.DigitField2</p>
 }
-@if (Model.Collection.NameDigitField3 != null)
+@if (Model.Ithem.Collection.NameDigitField3 != null)
 {
-    <p><strong>@Model.Collection.NameDigitField3:</strong> @Model.DigitField3</p>
-}
-
-
-@if (Model.Collection.NameStringField1 != null)
-{
-    <p><strong>@Model.Collection.NameStringField1:</strong> @Model.StringField1</p>
-}
-@if (Model.Collection.NameStringField2 != null)
-{
-    <p><strong>@Model.Collection.NameStringField2:</strong> @Model.StringField2</p>
-}
-@if (Model.Collection.NameStringField3 != null)
-{
-    <p><strong>@Model.Collection.NameStringField3:</strong> @Model.StringField3</p>
+    <p><strong>@Model.Ithem.Collection.NameDigitField3:</strong> @Model.Ithem.DigitField3</p>
 }
 
 
-@if (Model.Collection.NameDateField1 != null)
+@if (Model.Ithem.Collection.NameStringField1 != null)
 {
-    <p><strong>@Model.Collection.NameDateField1:</strong> @Model.DateField1</p>
+    <p><strong>@Model.Ithem.Collection.NameStringField1:</strong> @Model.Ithem.StringField1</p>
 }
-@if (Model.Collection.NameDateField2 != null)
+@if (Model.Ithem.Collection.NameStringField2 != null)
 {
-    <p><strong>@Model.Collection.NameDateField2:</strong> @Model.DateField2</p>
+    <p><strong>@Model.Ithem.Collection.NameStringField2:</strong> @Model.Ithem.StringField2</p>
 }
-@if (Model.Collection.NameDateField3 != null)
+@if (Model.Ithem.Collection.NameStringField3 != null)
 {
-    <p><strong>@Model.Collection.NameDateField3:</strong> @Model.DateField3</p>
+    <p><strong>@Model.Ithem.Collection.NameStringField3:</strong> @Model.Ithem.StringField3</p>
 }
 
 
-@if (Model.Collection.NameBoolField1 != null)
+@if (Model.Ithem.Collection.NameDateField1 != null)
 {
-    <p><strong>@Model.Collection.NameBoolField1:</strong> @Model.BoolField1</p>
+    <p><strong>@Model.Ithem.Collection.NameDateField1:</strong> @Model.Ithem.DateField1</p>
 }
-@if (Model.Collection.NameBoolField2 != null)
+@if (Model.Ithem.Collection.NameDateField2 != null)
 {
-    <p><strong>@Model.Collection.NameBoolField2:</strong> @Model.BoolField2</p>
+    <p><strong>@Model.Ithem.Collection.NameDateField2:</strong> @Model.Ithem.DateField2</p>
 }
-@if (Model.Collection.NameBoolField3 != null)
+@if (Model.Ithem.Collection.NameDateField3 != null)
 {
-    <p><strong>@Model.Collection.NameBoolField3:</strong> @Model.BoolField3</p>
+    <p><strong>@Model.Ithem.Collection.NameDateField3:</strong> @Model.Ithem.DateField3</p>
+}
+
+
+@if (Model.Ithem.Collection.NameBoolField1 != null)
+{
+    <p><strong>@Model.Ithem.Collection.NameBoolField1:</strong> @Model.Ithem.BoolField1</p>
+}
+@if (Model.Ithem.Collection.NameBoolField2 != null)
+{
+    <p><strong>@Model.Ithem.Collection.NameBoolField2:</strong> @Model.Ithem.BoolField2</p>
+}
+@if (Model.Ithem.Collection.NameBoolField3 != null)
+{
+    <p><strong>@Model.Ithem.Collection.NameBoolField3:</strong> @Model.Ithem.BoolField3</p>
+}
+<input id="id" type="hidden" value="@Model.Ithem.Id" />
+
+@if (User.Identity.IsAuthenticated)
+{
+    <input id="btnLike" type="button" class="btn btn-outline-dark" value="Like" disabled="disabled">
+    <span id="infoLike" class="text-black">Users liked: 0</span>
+
+<div class="container main-flex">
+    <div id="inputForm" class="item-flex m-2">
+        <textarea type="text" id="commentText" class="form-control" placeholder="You can to do comment here" disabled="disabled"></textarea>
+        <input class="btn btn-primary" type="button" id="sendBtn" value="Add comment" style="margin-top:10px" disabled="disabled" />
+    </div>
+    <div id="comments" class="item-flex">
+        @foreach (var item in Model.Comments)
+        {
+            <p class="item-flex">@item.UserId: @item.TextComment (@item.DateCreation)</p>
+        }
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+<script>
+    const hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/comment")
+        .build();
+
+    document.getElementById("sendBtn").addEventListener("click", function () {
+        let commentText = document.getElementById("commentText").value;
+        hubConnection.invoke("Send", commentText, "@User.Identity.Name", "@Model.Ithem.Id")
+            .catch(function (err) {
+                return console.error(err.toString());
+            });
+        document.getElementById("commentText").value = '';
+    });
+
+    hubConnection.on("Receive", function (commentText, nameUser, dateAdded, ithemId) {
+        if (ithemId === document.getElementById("id").value) {
+            let commentElement = document.createElement("p");
+            commentElement.setAttribute("class", "item-flex")
+            commentElement.textContent = nameUser + ": " + commentText + "  (" + dateAdded + ")";
+            document.getElementById("comments").appendChild(commentElement);
+        }
+    });
+
+
+
+        document.getElementById("btnLike").addEventListener("click", function () {
+            hubConnection.invoke("Like", "@User.Identity.Name", "@Model.Ithem.Id")
+                .catch(function (err) {
+                    return console.error(err.toString());
+                });
+        });
+
+        hubConnection.on("ReceiveLike", function (nameUser, ithemId, result, sumLikes) {
+            if ('@User.Identity.Name' === nameUser && ithemId === document.getElementById("id").value) {
+                if(result === "add")
+                {
+                    document.getElementById("btnLike").setAttribute("class", "btn btn-success");
+                    document.getElementById("btnLike").setAttribute("value", "Like");
+                }
+                else
+                {
+                    document.getElementById("btnLike").setAttribute("class", "btn btn-danger");
+                    document.getElementById("btnLike").setAttribute("value", "Dislike");
+                }
+            }
+            if (ithemId === document.getElementById("id").value)
+                document.getElementById("infoLike").textContent = "Users liked: " + sumLikes;
+        });
+
+        hubConnection.on("ReceiveIsLiked", function (nameUser, ithemId, isLiked, sumLikes) {
+            if ('@User.Identity.Name' === nameUser && ithemId === document.getElementById("id").value) {
+                if (!isLiked)
+                {
+                    document.getElementById("btnLike").setAttribute("class", "btn btn-success");
+                    document.getElementById("btnLike").setAttribute("value", "Like");
+                }
+                else
+                {
+                    document.getElementById("btnLike").setAttribute("class", "btn btn-danger");
+                    document.getElementById("btnLike").setAttribute("value", "Dislike");
+                }
+            }
+            if (ithemId === document.getElementById("id").value)
+                document.getElementById("infoLike").textContent = "Users liked: " + sumLikes;
+        });
+
+    hubConnection.start()
+        .then(function () {
+            document.getElementById("commentText").disabled = false;
+            document.getElementById("btnLike").disabled = false;
+            hubConnection.invoke("IsLiked", "@User.Identity.Name", "@Model.Ithem.Id")
+                .catch(function (err) {
+                    return console.error(err.toString());
+                });
+        })
+        .catch(function (err) {
+            return console.error(err.toString());
+        });
+
+    document.getElementById("commentText").addEventListener("input", function (e) {
+        if (document.getElementById("commentText").value === "")
+            document.getElementById("sendBtn").disabled = true;
+        else
+            document.getElementById("sendBtn").disabled = false;
+    });
+</script>
 }
